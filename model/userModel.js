@@ -13,11 +13,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userId: {
-      type: Number,
-      unique: true,
-    },
-    photo: String,
     email: {
       type: String,
       required: [true, "Please Enter Your Email"],
@@ -29,16 +24,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please Enter Your Mobile Phone Number"],
     },
-    address: {
-      governrate: String,
-      city: String,
-      street: String,
-      area: String,
-      building: Number,
-      floor: Number,
-      Appartment: Number,
-    },
-    verificationCode: Number,
     role: {
       type: String,
       enum: ["student", "teacher"],
@@ -75,6 +60,7 @@ const userSchema = new mongoose.Schema(
       default: true,
     },
     updatedAt: Date,
+    verificationCode: Number,
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
@@ -95,25 +81,7 @@ userSchema.pre("save", function(next) {
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
-userSchema.pre("save", async function(next) {
-  if (!this.isNew) return next();
 
-  try {
-    const lastUser = await this.constructor.findOne(
-      {},
-      {},
-      { sort: { userId: -1 } }
-    );
-    if (lastUser) {
-      this.userId = lastUser.userId + 1;
-    } else {
-      this.userId = 1;
-    }
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
 
 userSchema.pre(/^find/, function(next) {
   // this points to current query
