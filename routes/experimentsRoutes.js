@@ -9,12 +9,13 @@ router.get('/', experimentController.getAllExperiments);
 
 router.use(authController.restrictTo('teacher'));
 
+router.post(
+  '/',
+  experimentController.uploadExperimentPhoto,
+  experimentController.createNewExperiment
+);
 router
-  .route('/')
-  .post(
-    experimentController.uploadExperimentPhoto,
-    experimentController.createNewExperiment
-  )
+  .route('/:id')
   .patch(experimentController.updateExperiment)
   .delete(experimentController.deleteExperiment);
 

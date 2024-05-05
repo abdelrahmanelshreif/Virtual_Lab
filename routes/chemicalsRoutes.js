@@ -9,9 +9,9 @@ router.get('/', chemicalsController.getAllChemicals);
 
 router.use(authController.restrictTo('teacher'));
 
+router.post('/', chemicalsController.createNewChemical);
 router
-  .route('/')
-  .post(chemicalsController.createNewChemical)
+  .route('/:id')
   .patch(chemicalsController.updateChemical)
   .delete(chemicalsController.deleteChemical);
 

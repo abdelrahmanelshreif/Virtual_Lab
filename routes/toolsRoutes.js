@@ -9,9 +9,9 @@ router.get('/', toolsController.getAllTools);
 
 router.use(authController.restrictTo('teacher'));
 
+router.post('/', toolsController.createNewTool);
 router
-  .route('/')
-  .post(toolsController.createNewTool)
+  .route('/:id')
   .patch(toolsController.updateTool)
   .delete(toolsController.deleteTool);
 
