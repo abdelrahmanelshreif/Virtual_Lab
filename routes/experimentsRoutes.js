@@ -1,14 +1,21 @@
 const express = require('express');
 const authController = require('../controllers/authController');
-const handlerFactory = require('../controllers/handlerFactory');
-const Experiments = require('../model/experimentModel');
+const experimentController = require('../controllers/experimentsController');
 const router = express.Router();
 
-//Get All Experiments 
-router.get('/', authController.restrictTo('student','teacher'),handlerFactory.getAll(Experiments));
+router.use(authController.protect);
 
-//Add New Experiment 
-router.post('/add',authController.restrictTo('teacher'),handlerFactory.createOne(Experiments));
+router.get('/', experimentController.getAllExperiments);
 
+router.use(authController.restrictTo('teacher'));
+
+router
+  .route('/')
+  .post(
+    experimentController.uploadExperimentPhoto,
+    experimentController.createNewExperiment
+  )
+  .patch(experimentController.updateExperiment)
+  .delete(experimentController.deleteExperiment);
 
 module.exports = router;
