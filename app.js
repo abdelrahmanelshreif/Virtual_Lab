@@ -10,6 +10,9 @@ const globalErrorHandler = require('./controllers/errorController');
 const compression = require('compression');
 
 const userRouter = require('./routes/userRoutes');
+const chemicalsRouter = require('./routes/chemicalsRoutes');
+const toolsRouter = require('./routes/toolsRoutes');
+const experimentRouter = require('./routes/experimentsRoutes');
 const app = express();
 
 // Set security HTTP headers
@@ -45,7 +48,10 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/Virtual_lab/api/v1/user', userRouter);
+app.use('/virtual_lab/api/v1/user', userRouter);
+app.use('/virtual_lab/api/v1/chemicals', chemicalsRouter);
+app.use('/virtual_lab/api/v1/tools', toolsRouter);
+app.use('/virtual_lab/api/v1/experiment', experimentRouter);
 app.use(globalErrorHandler);
 
 app.all('*', (req, res, next) => {

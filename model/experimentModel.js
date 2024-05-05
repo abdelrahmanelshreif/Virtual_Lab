@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Tools = require("./toolsModel");
 const Chemicals = require("./chemicalsModel");
 
-
 const experimentSchema = new mongoose.Schema({
   name: {
      type: String, 
@@ -37,6 +36,6 @@ const experimentSchema = new mongoose.Schema({
     ref: 'Chemicals' }]
 });
 
-const Experiments = mongoose.model('Experiments', experimentSchema);
+const Experiments = mongoose.model('Experiments', experimentSchema,'Experiments');
 
 module.exports = Experiments;
