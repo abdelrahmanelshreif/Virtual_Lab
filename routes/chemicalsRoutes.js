@@ -1,14 +1,18 @@
 const express = require('express');
 const authController = require('../controllers/authController');
-const handlerFactory = require('../controllers/handlerFactory');
-const Chemical = require('../model/chemicalsModel');
+const chemicalsController = require('../controllers/chemicalsController');
 const router = express.Router();
 
-//Get All Chemicals
-router.get('/',authController.restrictTo('teacher','student'), handlerFactory.getAll(Chemical));
+router.use(authController.protect);
 
+router.get('/', chemicalsController.getAllChemicals);
 
-//Add New Chemical
-router.post('/add',authController.restrictTo('teacher'),handlerFactory.createOne(Chemical));
+router.use(authController.restrictTo('teacher'));
+
+router.post('/', chemicalsController.createNewChemical);
+router
+  .route('/:id')
+  .patch(chemicalsController.updateChemical)
+  .delete(chemicalsController.deleteChemical);
 
 module.exports = router;

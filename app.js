@@ -8,7 +8,7 @@ const hpp = require('hpp');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const compression = require('compression');
-
+const bodyParser = require('body-parser');
 const userRouter = require('./routes/userRoutes');
 const chemicalsRouter = require('./routes/chemicalsRoutes');
 const toolsRouter = require('./routes/toolsRoutes');
@@ -18,6 +18,7 @@ const app = express();
 // Set security HTTP headers
 app.use(helmet());
 
+app.use(bodyParser.urlencoded({ extended: false }));
 // DEVELOPMENT LOGGING
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
