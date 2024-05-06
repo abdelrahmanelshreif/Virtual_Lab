@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const userRouter = require('./routes/userRoutes');
 const chemicalsRouter = require('./routes/chemicalsRoutes');
 const toolsRouter = require('./routes/toolsRoutes');
+const photoRouter = require('./routes/photoRoutes');
 const experimentRouter = require('./routes/experimentsRoutes');
 const app = express();
 
@@ -49,6 +50,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/virtual_lab/api/v1/photo', photoRouter);
 app.use('/virtual_lab/api/v1/user', userRouter);
 app.use('/virtual_lab/api/v1/chemicals', chemicalsRouter);
 app.use('/virtual_lab/api/v1/tools', toolsRouter);
