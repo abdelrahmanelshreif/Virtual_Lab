@@ -28,7 +28,8 @@ async function getToolIDs(Model, Names) {
 exports.getAllExperiments = factory.getAll(Experiment);
 exports.updateExperiment = factory.updateOne(Experiment);
 exports.deleteExperiment = factory.deleteOne(Experiment);
-exports.uploadExperimentPhoto = factory.uploadPhotos('apparatus', 10);
+exports.uploadExperimentPhoto = factory.uploadPhotos('apparatus', 10)
+;
 exports.createNewExperiment = catchAsync(async (req, res, next) => {
   const {
     name,

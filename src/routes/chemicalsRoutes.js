@@ -9,7 +9,7 @@ router.get('/', chemicalsController.getAllChemicals);
 
 router.use(authController.restrictTo('teacher'));
 
-router.post('/', chemicalsController.createNewChemical);
+router.post('/add', chemicalsController.createNewChemical);
 router
   .route('/:id')
   .patch(chemicalsController.updateChemical)
