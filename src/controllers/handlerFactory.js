@@ -4,9 +4,6 @@ const APIFeatures = require('../utils/apiFeatures');
 const multer = require('multer');
 const path = require('path');
 
-// Initialize Multer middleware with memory storage to access the buffer
-// const multerStorage = multer.memoryStorage();
-// with diskStorage
 const multerStorage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, './src/uploads');
@@ -25,6 +22,7 @@ const multerFilter = (req, file, cb) => {
     cb(new Error('Only image files are allowed!'), false); // Reject the file
   }
 };
+
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
@@ -36,6 +34,7 @@ exports.deleteOne = Model =>
       data: null
     });
   });
+
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
     let newDocData = req.body;
@@ -56,6 +55,7 @@ exports.updateOne = Model =>
       }
     });
   });
+
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     let newDocData = req.body;
@@ -70,28 +70,7 @@ exports.createOne = Model =>
       }
     });
   });
-exports.getOne = (Model, popOptions) =>
-  catchAsync(async (req, res, next) => {
-    if (popOptions) query.populate(popOptions);
-    const features = new APIFeatures(Model.findById(req.params.id), req.query)
-      .filter()
-      .sort()
-      .fieldLimiting()
-      .paginate();
-    // const docs = await features.query.explain();
-    const doc = await features.query;
 
-    if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
-    }
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc
-      }
-    });
-  });
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
     let filter = {};

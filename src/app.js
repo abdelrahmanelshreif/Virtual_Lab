@@ -1,18 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
-const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-const hpp = require('hpp');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const userRouter = require('./routes/userRoutes');
 const chemicalsRouter = require('./routes/chemicalsRoutes');
 const toolsRouter = require('./routes/toolsRoutes');
 const photoRouter = require('./routes/photoRoutes');
+const authRouter = require('./routes/authRoutes');
 const experimentRouter = require('./routes/experimentsRoutes');
 const app = express();
 
@@ -24,13 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-
-// Limit requests from the same IP
-const limiter = rateLimit({
-  max: 2000,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP , please try again in an hour!'
-});
 
 // Body parser , reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -50,8 +41,8 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/virtual_lab/api/v1', authRouter);
 app.use('/virtual_lab/api/v1/photo', photoRouter);
-app.use('/virtual_lab/api/v1/user', userRouter);
 app.use('/virtual_lab/api/v1/chemicals', chemicalsRouter);
 app.use('/virtual_lab/api/v1/tools', toolsRouter);
 app.use('/virtual_lab/api/v1/experiment', experimentRouter);
