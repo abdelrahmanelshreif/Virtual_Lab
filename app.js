@@ -3,15 +3,15 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-const AppError = require('./utils/appError');
-const globalErrorHandler = require('./controllers/errorController');
+const AppError = require('./src/utils/appError');
+const globalErrorHandler = require('./src/controllers/errorController');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const chemicalsRouter = require('./routes/chemicalsRoutes');
-const toolsRouter = require('./routes/toolsRoutes');
-const photoRouter = require('./routes/photoRoutes');
-const authRouter = require('./routes/authRoutes');
-const experimentRouter = require('./routes/experimentsRoutes');
+const chemicalsRouter = require('./src/routes/chemicalsRoutes');
+const toolsRouter = require('./src/routes/toolsRoutes');
+const photoRouter = require('./src/routes/photoRoutes');
+const authRouter = require('./src/routes/authRoutes');
+const experimentRouter = require('./src/routes/experimentsRoutes');
 const app = express();
 
 // Set security HTTP headers
