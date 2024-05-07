@@ -6,8 +6,8 @@ const router = express.Router();
 
 // Get Photo
 router.get('/:filename',photoController.accessPhoto);
-router.use(authController.protect);
 
+router.use(authController.protect);
 
 //Only Teacher Can Upload The Photo
 router.use(authController.restrictTo('teacher'));
