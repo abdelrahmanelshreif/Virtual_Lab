@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const chemicalSchema = new mongoose.Schema({
+const chemicalsSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -32,6 +32,6 @@ const chemicalSchema = new mongoose.Schema({
 });
 
 // Specify custom collection name
-const Chemical = mongoose.model("Chemical", chemicalSchema, "Chemicals");
+const Chemicals = mongoose.model('Chemicals', chemicalsSchema, 'Chemicals');
 
-module.exports = Chemical;
+module.exports = Chemicals;

@@ -5,3 +5,4 @@ exports.getAllTools = factory.getAll(Tool);
 exports.createNewTool = factory.createOne(Tool);
 exports.updateTool = factory.updateOne(Tool);
 exports.deleteTool = factory.deleteOne(Tool);
+exports.uploadToolPhoto = factory.uploadPhotos('image', 1);

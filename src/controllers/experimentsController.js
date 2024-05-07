@@ -5,7 +5,7 @@ const AppError = require('../utils/appError');
 const Tools = require('../model/toolsModel');
 const Chemicals = require('../model/chemicalsModel');
 
-async function getToolIDs(Model, Names) {
+const getToolIDs = async function(Model, Names) {
   const IDs = [];
   if (typeof Names === 'string') {
     let arr = [];
@@ -24,39 +24,51 @@ async function getToolIDs(Model, Names) {
     }
   }
   return IDs;
-}
+};
+
 exports.getAllExperiments = factory.getAll(Experiment);
-exports.updateExperiment = factory.updateOne(Experiment);
 exports.deleteExperiment = factory.deleteOne(Experiment);
-exports.uploadExperimentPhoto = factory.uploadPhotos('apparatus', 10)
-;
+exports.uploadExperimentPhoto = factory.uploadPhotos('apparatus', 10);
 exports.createNewExperiment = catchAsync(async (req, res, next) => {
-  const {
-    name,
-    description,
-    objective,
-    equation,
-    observation,
-    conclusion,
-    //steps,
-    tools,
-    chemicals
-  } = req.body;
-  const toolIDs = await getToolIDs(Tools, tools);
-  const chemicalIDs = await getToolIDs(Chemicals, chemicals);
-  const apparatus = req.files.map(file => file.path);
-  const newExperiment = await Experiment.create({
-    name,
-    description,
-    objective,
-    equation,
-    observation,
-    conclusion,
-    //steps,
-    apparatus,
-    tools: toolIDs,
-    chemicals: chemicalIDs
+  let data = req.body;
+  const toolIDs = await getToolIDs(Tools, data.tools);
+  data['tools'] = toolIDs;
+  const chemicalIDs = await getToolIDs(Chemicals, data.chemicals);
+  data['chemicals'] = chemicalIDs;
+  const apparatus = req.files.map(file => file.filename);
+  data['apparatus'] = apparatus;
+  console.log(data);
+  const newExperiment = await Experiment.create(data);
+  res.status(201).json({
+    status: 'success',
+    data: {
+      newExperiment
+    }
   });
+});
+exports.updateExperiment = catchAsync(async (req, res, next) => {
+  const newData = req.body;
+  let toolIDs, chemicalIDs, apparatus;
+  if (req.body.tools) {
+    toolIDs = await getToolIDs(Tools, req.body.tools);
+    newData['tools'] = toolIDs;
+  }
+  if (req.body.chemicals) {
+    chemicalIDs = await getToolIDs(Chemicals, req.body.chemicals);
+    newData['chemicals'] = chemicalIDs;
+  }
+  if (req.files) {
+    apparatus = req.files.map(file => file.filename);
+    newData['apparatus'] = apparatus;
+  }
+  const newExperiment = await Experiment.findByIdAndUpdate(
+    req.params.id,
+    newData,
+    {
+      new: true,
+      runValidators: true
+    }
+  );
   res.status(201).json({
     status: 'success',
     data: {
