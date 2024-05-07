@@ -123,9 +123,6 @@ exports.uploadPhotos = (fieldName, maxLimit) =>
       if (err) {
         return next(new AppError('Error uploading file', 400));
       }
-      if (!req.files.length) {
-        return next(new AppError('No files was uploaded', 400));
-      }
       next(); // Call next middleware or route handler
     });
   });
