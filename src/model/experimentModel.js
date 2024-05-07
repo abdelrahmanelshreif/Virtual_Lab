@@ -42,6 +42,30 @@ const experimentSchema = new mongoose.Schema({
     }
   ]
 });
+experimentSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'tools',
+    select: 'name'
+  }).populate({
+    path: 'chemicals',
+    select: 'name'
+  });
+  next();
+});
+experimentSchema.post('save', async function(doc, next) {
+  await doc
+    .populate({
+      path: 'tools',
+      select: 'name'
+    })
+    .populate({
+      path: 'chemicals',
+      select: 'name'
+    })
+    .execPopulate();
+
+  next();
+});
 
 const Experiments = mongoose.model(
   'Experiments',
