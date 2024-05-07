@@ -39,9 +39,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     role: req.body.role,
     phoneNumber: req.body.phoneNumber,
-    password: req.body.password,
-    passwordConfirm: req.body.password,
-    passwordChangedAt: req.body.passwordChangedAt
+    password: req.body.password
   });
   createSendToken(newUser, 201, res);
 });
@@ -93,12 +91,6 @@ exports.protect = catchAsync(async (req, res, next) => {
       )
     );
   }
-
-  // 4) Check if user change password after the jwt was issued
-  if (freshUser.changedPasswordAfter(decoded.iat)) {
-    return next(new AppError('User recently changed password!', 401));
-  }
-
   //GRANT ACESS TO PROTECTED ROUTE
   req.user = freshUser;
   next();

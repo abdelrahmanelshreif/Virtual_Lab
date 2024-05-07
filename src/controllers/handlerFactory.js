@@ -2,16 +2,16 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
 const multer = require('multer');
+const path = require('path');
 
-// Initialize Multer middleware with memory storage to access the buffer
-// const multerStorage = multer.memoryStorage();
-// with diskStorage
 const multerStorage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './assets/experiments');
+    cb(null, './src/uploads');
   },
   filename: function(req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const extension = file.originalname.split('.').pop();
+    cb(null, uniqueSuffix + '.' + extension);
   }
 });
 const multerFilter = (req, file, cb) => {
@@ -22,6 +22,7 @@ const multerFilter = (req, file, cb) => {
     cb(new Error('Only image files are allowed!'), false); // Reject the file
   }
 };
+
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
@@ -33,13 +34,17 @@ exports.deleteOne = Model =>
       data: null
     });
   });
+
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    let newDocData = req.body;
+    if (req.files.length) {
+      newDocData[req.files[0].fieldname] = req.files[0].filename;
+    }
+    const doc = await Model.findByIdAndUpdate(req.params.id, newDocData, {
       new: true,
       runValidators: true
     });
-
     if (!doc) {
       return next(new AppError('No document Found with that ID', 404));
     }
@@ -50,13 +55,13 @@ exports.updateOne = Model =>
       }
     });
   });
+
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     let newDocData = req.body;
-    // if (req.file) {
-    //   const buffer = req.file.buffer;
-    //   newDocData[req.file.fieldname] = buffer.toString('base64');
-    // }
+    if (req.files.length) {
+      newDocData[req.files[0].fieldname] = req.files[0].filename;
+    }
     const newDoc = await Model.create(newDocData);
     res.status(201).json({
       status: 'success',
@@ -65,28 +70,7 @@ exports.createOne = Model =>
       }
     });
   });
-exports.getOne = (Model, popOptions) =>
-  catchAsync(async (req, res, next) => {
-    if (popOptions) query.populate(popOptions);
-    const features = new APIFeatures(Model.findById(req.params.id), req.query)
-      .filter()
-      .sort()
-      .fieldLimiting()
-      .paginate();
-    // const docs = await features.query.explain();
-    const doc = await features.query;
 
-    if (!doc) {
-      return next(new AppError('No document found with that ID', 404));
-    }
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: doc
-      }
-    });
-  });
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
     let filter = {};
@@ -114,11 +98,19 @@ exports.uploadPhotos = (fieldName, maxLimit) =>
     }).array(fieldName, maxLimit);
     // Handle file upload
     upload(req, res, err => {
+      console.log(err);
       if (err) {
-        return next(new AppError('Error uploading file', 500));
+        return next(new AppError('Error uploading file', 400));
       }
       next(); // Call next middleware or route handler
     });
   });
 
-
+exports.accessPhoto = catchAsync(async (req, res, next) => {
+  const filename = req.params.filename;
+  if (!filename) {
+    return next(new AppError('No Photo Found', 404));
+  }
+  const filePath = path.join(__dirname, '..', 'uploads', filename);
+  res.sendFile(filePath);
+});

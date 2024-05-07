@@ -16,7 +16,10 @@ router.post(
 );
 router
   .route('/:id')
-  .patch(experimentController.updateExperiment)
+  .patch(
+    experimentController.uploadExperimentPhoto,
+    experimentController.updateExperiment
+  )
   .delete(experimentController.deleteExperiment);
 
 module.exports = router;
