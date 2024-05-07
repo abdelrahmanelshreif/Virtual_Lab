@@ -1,18 +1,26 @@
 const mongoose = require('mongoose');
 
 const experimentSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String
-  },
-  objective: {
-    type: String
-  },
-  equation: {
-    type: String
+  info:{
+    name: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String
+    },
+    observation: {
+      type: String
+    },
+    conclusion: {
+      type: String
+    },
+    equation: {
+      type: String
+    },
+    objective: {
+      type: String
+    },
   },
   apparatus: [
     {
@@ -20,12 +28,6 @@ const experimentSchema = new mongoose.Schema({
       required: true
     }
   ],
-  observation: {
-    type: String
-  },
-  conclusion: {
-    type: String
-  },
   tools: [
     {
       type: mongoose.Schema.Types.ObjectId,
