@@ -34,14 +34,14 @@ exports.getOne = (Model, popOptions) =>
     const doc = await features.query;
 
     if (!doc) {
-      return next(new AppError("No document found with that ID", 404));
+      return next(new AppError('No document found with that ID', 404));
     }
 
     res.status(200).json({
-      status: "success",
+      status: 'success',
       data: {
-        data: doc,
-      },
+        data: doc
+      }
     });
   });
 exports.deleteOne = Model =>
@@ -80,7 +80,8 @@ exports.updateOne = Model =>
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     let newDocData = req.body;
-    if (req.files.length) {
+    if (req.files && req.files.length) {
+      // Check if req.files exists and has a length property
       newDocData[req.files[0].fieldname] = req.files[0].filename;
     }
     const newDoc = await Model.create(newDocData);
