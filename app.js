@@ -12,10 +12,13 @@ const toolsRouter = require('./src/routes/toolsRoutes');
 const photoRouter = require('./src/routes/photoRoutes');
 const authRouter = require('./src/routes/authRoutes');
 const experimentRouter = require('./src/routes/experimentsRoutes');
+const cors = require('cors');
 const app = express();
 
 // Set security HTTP headers
 app.use(helmet());
+
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 // DEVELOPMENT LOGGING
