@@ -44,8 +44,8 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/virtual_lab/api/v1', authRouter);
 app.use('/virtual_lab/api/v1/photo', photoRouter);
+app.use('/virtual_lab/api/v1', authRouter);
 app.use('/virtual_lab/api/v1/chemicals', chemicalsRouter);
 app.use('/virtual_lab/api/v1/tools', toolsRouter);
 app.use('/virtual_lab/api/v1/experiment', experimentRouter);
