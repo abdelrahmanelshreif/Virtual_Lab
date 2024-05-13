@@ -4,7 +4,7 @@ const experimentSchema = new mongoose.Schema({
   info:{
     name: {
       type: String,
-      required: true
+      // required: true
     },
     description: {
       type: String
@@ -25,7 +25,7 @@ const experimentSchema = new mongoose.Schema({
   apparatus: [
     {
       type: String,
-      required: true
+      // required: true
     }
   ],
   tools: [
