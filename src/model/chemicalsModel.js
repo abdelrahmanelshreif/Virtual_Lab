@@ -7,27 +7,27 @@ const chemicalsSchema = new mongoose.Schema({
   },
   state: {
     type: String,
-    required: true
+    // required: true
   },
   color: {
     type: String,
-    required: true
+    // required: true
   },
   taste: {
     type: String,
-    required: true
+    // required: true
   },
   smell: {
     type: String,
-    required: true
+    // required: true
   },
   molecularFormula: {
     type: String,
-    required: true
+    // required: true
   },
   atomicStructure: {
     type: String,
-    required: true
+    // required: true
   }
 });
 

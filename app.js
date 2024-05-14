@@ -12,10 +12,13 @@ const toolsRouter = require('./src/routes/toolsRoutes');
 const photoRouter = require('./src/routes/photoRoutes');
 const authRouter = require('./src/routes/authRoutes');
 const experimentRouter = require('./src/routes/experimentsRoutes');
+const cors = require('cors');
 const app = express();
 
 // Set security HTTP headers
 app.use(helmet());
+
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 // DEVELOPMENT LOGGING
@@ -41,8 +44,8 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/virtual_lab/api/v1', authRouter);
 app.use('/virtual_lab/api/v1/photo', photoRouter);
+app.use('/virtual_lab/api/v1', authRouter);
 app.use('/virtual_lab/api/v1/chemicals', chemicalsRouter);
 app.use('/virtual_lab/api/v1/tools', toolsRouter);
 app.use('/virtual_lab/api/v1/experiment', experimentRouter);

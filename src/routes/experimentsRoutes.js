@@ -6,6 +6,7 @@ const router = express.Router();
 router.use(authController.protect);
 
 router.get('/', experimentController.getAllExperiments);
+router.get('/:id', experimentController.getOneExperiment);
 
 router.use(authController.restrictTo('teacher'));
 

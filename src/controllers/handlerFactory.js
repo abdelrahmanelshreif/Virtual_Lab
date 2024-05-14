@@ -22,16 +22,38 @@ const multerFilter = (req, file, cb) => {
     cb(new Error('Only image files are allowed!'), false); // Reject the file
   }
 };
+exports.getOne = (Model, popOptions) =>
+  catchAsync(async (req, res, next) => {
+    if (popOptions) query.populate(popOptions);
+    const features = new APIFeatures(Model.findById(req.params.id), req.query)
+      .filter()
+      .sort()
+      .fieldLimiting()
+      .paginate();
+    // const docs = await features.query.explain();
+    const doc = await features.query;
 
+    if (!doc) {
+      return next(new AppError('No document found with that ID', 404));
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        data: doc
+      }
+    });
+  });
 exports.deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
     }
-    res.status(204).json({
-      status: 'success',
-      data: null
+    res.status(200).json({
+      
+      status: 'deletion success',
+      deletedObjectId: doc._id
     });
   });
 
@@ -59,7 +81,8 @@ exports.updateOne = Model =>
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     let newDocData = req.body;
-    if (req.files.length) {
+    if (req.files && req.files.length) {
+      // Check if req.files exists and has a length property
       newDocData[req.files[0].fieldname] = req.files[0].filename;
     }
     const newDoc = await Model.create(newDocData);

@@ -6,6 +6,7 @@ const router = express.Router();
 router.use(authController.protect);
 
 router.get('/', chemicalsController.getAllChemicals);
+router.get('/:id', chemicalsController.getOneChemicals);
 
 router.use(authController.restrictTo('teacher'));
 

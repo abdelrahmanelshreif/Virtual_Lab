@@ -28,6 +28,7 @@ const getToolIDs = async function(Model, Names) {
 
 exports.getAllExperiments = factory.getAll(Experiment);
 exports.deleteExperiment = factory.deleteOne(Experiment);
+exports.getOneExperiment = factory.getOne(Experiment);
 exports.uploadExperimentPhoto = factory.uploadPhotos('apparatus', 10);
 exports.createNewExperiment = catchAsync(async (req, res, next) => {
   let data = req.body;

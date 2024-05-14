@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const User = require('../model/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const factory = require('../controllers/handlerFactory');
 
 const signToken = id =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -97,7 +98,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.restrictTo = (...roles) => (req, res, next) => {
-  console.log(req.user.role);
   if (!roles.includes(req.user.role)) {
     return next(
       new AppError("You don't have the permission to do this action ", 403)
@@ -105,3 +105,8 @@ exports.restrictTo = (...roles) => (req, res, next) => {
   }
   next();
 };
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+exports.getUser = factory.getOne(User);
