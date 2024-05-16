@@ -9,7 +9,7 @@ exports.uploadExperimentPhoto = factory.uploadPhotos('apparatus', 10);
 exports.createNewExperiment = catchAsync(async (req, res, next) => {
   let data = req.body;
   let apparatus;
-  if (req.files.length) {
+  if (req.files && req.files.length) {
     apparatus = req.files.map(file => file.filename);
     data['apparatus'] = apparatus;
   }
@@ -24,7 +24,7 @@ exports.createNewExperiment = catchAsync(async (req, res, next) => {
 exports.updateExperiment = catchAsync(async (req, res, next) => {
   const newData = req.body;
   let apparatus;
-  if (req.files.length) {
+  if (req.files && req.files.length) {
     apparatus = req.files.map(file => file.filename);
     newData['apparatus'] = apparatus;
   }
