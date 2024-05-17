@@ -1,29 +1,37 @@
 const mongoose = require('mongoose');
 
 const experimentSchema = new mongoose.Schema({
-  info:{
+  info: {
     name: {
       type: String,
+      default: ''
+      // required: true
     },
     description: {
-      type: String
+      type: String,
+      default: ''
     },
     observation: {
-      type: String
+      type: String,
+      default: ''
     },
     conclusion: {
-      type: String
+      type: String,
+      default: ''
     },
     equation: {
-      type: String
+      type: String,
+      default: ''
     },
     objective: {
-      type: String
-    },
+      type: String,
+      default: ''
+    }
   },
   apparatus: [
     {
-      type: String,
+      type: String
+      // required: true
     }
   ],
   tools: [
