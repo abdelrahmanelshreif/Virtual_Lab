@@ -5,7 +5,6 @@ const experimentSchema = new mongoose.Schema({
     name: {
       type: String,
       default: ''
-      // required: true
     },
     description: {
       type: String,
@@ -40,7 +39,32 @@ const experimentSchema = new mongoose.Schema({
       ref: 'Tools'
     }
   ],
-  steps: [[String]],
+  steps: [
+    {
+      verb: {type: String, default: ''},
+      description: {
+        tool1: {
+          id: mongoose.Schema.Types.ObjectId,
+          title: {type: String, default: ''},
+        },
+        tool2: {
+          id: mongoose.Schema.Types.ObjectId,
+          title: {type: String, default: ''},
+        },
+        quantity: {
+          value: Number
+        },
+        chemical: {
+          id: mongoose.Schema.Types.ObjectId,
+          title:{type: String, default: ''},
+        },
+        temperature: {
+          value: Number,
+          title: {type: String, default: ''},
+        }
+      }
+    },
+  ],
   chemicals: [
     {
       type: mongoose.Schema.Types.ObjectId,
