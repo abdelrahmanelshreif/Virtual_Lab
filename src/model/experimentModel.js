@@ -58,7 +58,7 @@ const experimentSchema = new mongoose.Schema({
           },
         },
         quantity: {
-          value: Number
+          value: String
         },
         chemical: {
           id: mongoose.Schema.Types.ObjectId,
@@ -67,7 +67,7 @@ const experimentSchema = new mongoose.Schema({
           },
         },
         temperature: {
-          value: Number,
+          value: String,
           title: {type: String,
             //  default: ''
           },
