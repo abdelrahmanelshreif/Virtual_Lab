@@ -9,18 +9,22 @@ const toolsSchema = new mongoose.Schema({
     type: String
     // required: true
   },
+  // image: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Photos'
+  // }
   image: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Photos'
+    type: String
+    // required: true
   }
 });
-toolsSchema.pre(/^find/, function(next) {
-  this.populate({
-    path: 'image',
-    select: 'url'
-  });
-  next();
-});
+// toolsSchema.pre(/^find/, function(next) {
+//   this.populate({
+//     path: 'image',
+//     select: 'url'
+//   });
+//   next();
+// });
 
 const Tools = mongoose.model('Tools', toolsSchema, 'Tools');
 

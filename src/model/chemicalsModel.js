@@ -25,18 +25,22 @@ const chemicalsSchema = new mongoose.Schema({
     type: String
     // required: true
   },
+  // atomicStructure: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Photos'
+  // }
   atomicStructure: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Photos'
+    type: String
+    // required: true
   }
 });
-chemicalsSchema.pre(/^find/, function(next) {
-  this.populate({
-    path: 'atomicStructure',
-    select: 'url'
-  });
-  next();
-});
+// chemicalsSchema.pre(/^find/, function(next) {
+//   this.populate({
+//     path: 'atomicStructure',
+//     select: 'url'
+//   });
+//   next();
+// });
 
 // Specify custom collection name
 const Chemicals = mongoose.model('Chemicals', chemicalsSchema, 'Chemicals');

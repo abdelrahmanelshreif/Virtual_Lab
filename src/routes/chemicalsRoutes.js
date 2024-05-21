@@ -10,10 +10,17 @@ router.get('/:id', chemicalsController.getOneChemicals);
 
 router.use(authController.restrictTo('teacher'));
 
-router.post('/', chemicalsController.createNewChemical);
+router.post(
+  '/',
+  chemicalsController.uploadChemicalPhoto,
+  chemicalsController.createNewChemical
+);
 router
   .route('/:id')
-  .patch(chemicalsController.updateChemical)
+  .patch(
+    chemicalsController.uploadChemicalPhoto,
+    chemicalsController.updateChemical
+  )
   .delete(chemicalsController.deleteChemical);
 
 module.exports = router;
