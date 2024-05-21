@@ -7,7 +7,7 @@ const factory = require('../controllers/handlerFactory');
 
 const multerStorage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './uploads');
+    cb(null, './src/uploads');
   },
   filename: function(req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -38,7 +38,7 @@ exports.createPhoto = catchAsync(async (req, res, next) => {
     }
     const newPhoto = new Photo();
     (newPhoto.path = path.join(__dirname, '..', 'uploads', req.file.filename)),
-      (newPhoto.url = `https://virtual-lab-u65s.onrender.com/virtual_lab/api/v1/photo/${newPhoto._id}`),
+      (newPhoto.url = `https://virtual-lab-u65s.onrender.com/virtual_lab/api/v1/photo/v2/${newPhoto._id}`),
       (newPhoto.width = req.body.width),
       (newPhoto.height = req.body.height);
 
