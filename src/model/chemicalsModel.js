@@ -6,29 +6,36 @@ const chemicalsSchema = new mongoose.Schema({
     required: true
   },
   state: {
-    type: String,
+    type: String
     // required: true
   },
   color: {
-    type: String,
+    type: String
     // required: true
   },
   taste: {
-    type: String,
+    type: String
     // required: true
   },
   smell: {
-    type: String,
+    type: String
     // required: true
   },
   molecularFormula: {
-    type: String,
+    type: String
     // required: true
   },
   atomicStructure: {
-    type: String,
-    // required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Photos'
   }
+});
+chemicalsSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'atomicStructure',
+    select: 'url'
+  });
+  next();
 });
 
 // Specify custom collection name

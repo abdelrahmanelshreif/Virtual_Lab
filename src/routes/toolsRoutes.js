@@ -10,14 +10,10 @@ router.get('/:id', toolsController.getOneTools);
 
 router.use(authController.restrictTo('teacher'));
 
-router.post(
-  '/',
-  toolsController.uploadToolPhoto,
-  toolsController.createNewTool
-);
+router.post('/', toolsController.createNewTool);
 router
   .route('/:id')
-  .patch(toolsController.uploadToolPhoto, toolsController.updateTool)
+  .patch(toolsController.updateTool)
   .delete(toolsController.deleteTool);
 
 module.exports = router;

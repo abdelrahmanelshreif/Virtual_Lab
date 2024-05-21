@@ -1,8 +1,14 @@
 const express = require('express');
-const factory = require('../controllers/handlerFactory');
+const photoController = require('../controllers/photoController');
 const router = express.Router();
 
-// Get Photo
-router.get('/:filename', factory.accessPhoto);
+router
+  .route('/:id')
+  .get(photoController.accessPhoto)
+  .delete(photoController.deletePhoto);
+router
+  .route('/')
+  .post(photoController.createPhoto)
+  .get(photoController.getAllPhotos);
 
 module.exports = router;

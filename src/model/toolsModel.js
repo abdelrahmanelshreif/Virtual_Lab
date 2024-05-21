@@ -6,13 +6,20 @@ const toolsSchema = new mongoose.Schema({
     required: true
   },
   description: {
-    type: String,
+    type: String
     // required: true
   },
   image: {
-    type: String,
-    // required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Photos'
   }
+});
+toolsSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'image',
+    select: 'url'
+  });
+  next();
 });
 
 const Tools = mongoose.model('Tools', toolsSchema, 'Tools');

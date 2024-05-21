@@ -12,13 +12,13 @@ router.use(authController.restrictTo('teacher'));
 
 router.post(
   '/',
-  experimentController.uploadExperimentPhoto,
+  //experimentController.uploadExperimentPhoto,
   experimentController.createNewExperiment
 );
 router
   .route('/:id')
   .patch(
-    experimentController.uploadExperimentPhoto,
+    //experimentController.uploadExperimentPhoto,
     experimentController.updateExperiment
   )
   .delete(experimentController.deleteExperiment);
