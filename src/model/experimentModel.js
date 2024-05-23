@@ -30,7 +30,30 @@ const experimentSchema = new mongoose.Schema({
   apparatus: [
     {
       type: String
-      // required: true
+    }
+  ],
+  images: [
+    {
+      device: {
+        image: String,
+        imageID: String,
+        dimensions: {
+          width: String,
+          height: String
+        }
+      },
+      tools: {
+        order: Number,
+        image: String,
+        positions: {
+          x: String,
+          y: String
+        },
+        dimensions: {  // Added colon here
+          width: String,
+          height: String
+        }
+      }
     }
   ],
   tools: [
