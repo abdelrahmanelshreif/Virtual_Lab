@@ -32,7 +32,7 @@ const experimentSchema = new mongoose.Schema({
       type: String
     }
   ],
-  images: [
+  images: 
     {
       device: {
         image: String,
@@ -55,7 +55,7 @@ const experimentSchema = new mongoose.Schema({
         }
       }
     }
-  ],
+  ,
   tools: [
     {
       type: mongoose.Schema.Types.ObjectId,
