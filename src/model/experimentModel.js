@@ -36,7 +36,7 @@ const experimentSchema = new mongoose.Schema({
     {
       device: {
         image: String,
-        imageID: String,
+        imageId: String,
         dimensions: {
           width: String,
           height: String
@@ -45,7 +45,7 @@ const experimentSchema = new mongoose.Schema({
       tools: {
         order: Number,
         image: String,
-        imageID:String,
+        imageId:String,
         positions: {
           x: String,
           y: String
