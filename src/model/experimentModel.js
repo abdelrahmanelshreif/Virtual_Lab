@@ -114,10 +114,8 @@ const experimentSchema = new mongoose.Schema({
 experimentSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'tools',
-    select: 'name'
   }).populate({
     path: 'chemicals',
-    select: 'name'
   });
   next();
 });
